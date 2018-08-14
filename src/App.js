@@ -47,12 +47,15 @@ class App extends Component {
       
       cart:[],
       toggleCard:false,
-      searchFilter:''
+      searchFilter:'',
+      toggleCart:false
     }
     this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
     this.toggleCardView = this.toggleCardView.bind(this);
     this.removeItemFromCart = this.removeItemFromCart.bind(this);
+    this.toggleCart = this.toggleCart.bind(this);
+    this.toggleProducts = this.toggleProducts.bind(this);
   }
   handleAddItemToCart( item ){
     let newCart = this.state.cart.map( cartItem => {
@@ -116,12 +119,30 @@ class App extends Component {
       searchFilter:searchInput
     })
   }
+  toggleCart(){
+    this.setState({
+      toggleCart:true
+    })
+  }
+  toggleProducts(){
+    this.setState({
+      toggleCart:false
+    })
+  }
   render() {
     return (
       <div>
-        <div className='products'>
-          <h1>PRODUCTS</h1>
+        <nav>
           <button onClick={this.toggleCardView}>Toggle View</button>
+          <button onClick={this.toggleProducts}>See Products</button>
+          <button onClick={this.toggleCart}>See Cart</button>
+        </nav>
+        {
+
+        !this.state.toggleCart
+        ?<div className='products'>
+          <h1>PRODUCTS</h1>
+          
           <p>Search Product Names: </p>
           <input value={this.state.searchFilter} onChange={ e => this.search(e.target.value)}/>
           <h2>Beach Gear</h2>
@@ -166,7 +187,8 @@ class App extends Component {
           }
           
         </div>
-        <div className='side_bar'>
+        
+        :<div className='side_bar'>
           <div className='cart'>
             <h1>CART</h1>
             {
@@ -193,6 +215,7 @@ class App extends Component {
             <button onClick={this.checkout}>Checkout</button>
           </div>
         </div>
+        }
       </div>
     );
   }

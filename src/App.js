@@ -42,7 +42,8 @@ class App extends Component {
         ],
       
       cart:[],
-      toggleCard:false
+      toggleCard:false,
+      searchFilter:''
     }
     this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
@@ -74,16 +75,23 @@ class App extends Component {
       toggleCard:!this.state.toggleCard
     })
   }
+  search( searchInput ){
+    this.setState({
+      searchFilter:searchInput
+    })
+  }
   render() {
     return (
       <div>
-        
         <div className='products'>
           <h1>PRODUCTS</h1>
           <button onClick={this.toggleCardView}>Toggle View</button>
+          <p>Search Product Names: </p>
+          <input value={this.state.searchFilter} onChange={ e => this.search(e.target.value)}/>
           <h2>Beach Gear</h2>
           {
-            this.state.beachGear.map( item => {
+            this.state.beachGear.filter( item => item.name.includes(this.state.searchFilter))
+            .map( item => {
               return(
                 // <div>
                 //   <img src={item.imageUrl} alt='the item'/>
@@ -102,7 +110,8 @@ class App extends Component {
           }
           <h2>Camping</h2>
           {
-            this.state.camping.map( item => {
+            this.state.camping.filter( item => item.name.includes(this.state.searchFilter))
+            .map( item => {
               return(
                 // <div>
                 //   <img src={item.imageUrl} alt='the item'/>

@@ -1,28 +1,20 @@
-.App {
-  text-align: center;
+
+.products {
+  float:left;
+  margin:0;
+  padding: 10px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.product_card {
+  display: flex;
+  border: 1px solid black;
+  margin:5px;
 }
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.cart {
+  margin: 0;
+  padding: 10px;
+  border-left:1px solid black;
 }
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.side_bar {
+  float: right;
 }

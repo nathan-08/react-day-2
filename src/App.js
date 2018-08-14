@@ -48,7 +48,9 @@ class App extends Component {
       cart:[],
       toggleCard:false,
       searchFilter:'',
-      toggleCart:false
+      toggleCart:false,
+      address:'',
+      creditCard:''
     }
     this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
@@ -104,10 +106,15 @@ class App extends Component {
   }
 
   checkout(){
-    alert("Here's yer stuff")
-    this.setState({
-      cart:[]
-    })
+    if(!this.state.address || !this.state.creditCard){
+      alert("WHERE YOU LIVE. WHERE MY MONEY")
+    }
+    else{
+      alert("Here's yer stuff")
+      this.setState({
+        cart:[]
+      })
+    }
   }
   toggleCardView(){
     this.setState({
@@ -127,6 +134,16 @@ class App extends Component {
   toggleProducts(){
     this.setState({
       toggleCart:false
+    })
+  }
+  handleAddressInput( address ){
+    this.setState({
+      address
+    })
+  }
+  handleCreditCardInput( creditCard ){
+    this.setState({
+      creditCard
     })
   }
   render() {
@@ -206,6 +223,10 @@ class App extends Component {
               })
             }
 
+          </div>
+          <div className='inputs'>
+            <input placeholder='address' value={this.state.address} onChange={ (e) => this.handleAddressInput(e.target.value)}/>
+            <input placeholder='credit card info' value={this.state.creditCard} onChange={ (e) => this.handleCreditCardInput(e.target.value)}/>
           </div>
           <div className='total'>
             <h1>TOTAL</h1>

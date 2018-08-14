@@ -13,14 +13,16 @@ class App extends Component {
           name:'Flip Flops',
           description:'Some flippy floppys',
           price:5.99,
-          imageUrl:'http://via.placeholder.com/350x150'
+          imageUrl:'http://via.placeholder.com/350x150',
+          quantity:0
         },
         {
           id:2,
           name:'Tent',
           description:'TENTS',
           price:6.99,
-          imageUrl:'http://via.placeholder.com/350x150'
+          imageUrl:'http://via.placeholder.com/350x150',
+          quantity:0
         },
       ],
         camping:[
@@ -29,14 +31,16 @@ class App extends Component {
             name:'Sun tan lotion',
             description:'Gotta look fly guy',
             price:7.99,
-            imageUrl:'http://via.placeholder.com/350x150'
+            imageUrl:'http://via.placeholder.com/350x150',
+            quantity:0
           },
           {
             id:4,
             name:'Mice',
             description:'Not blind',
             price:8.99,
-            imageUrl:'http://via.placeholder.com/350x150'
+            imageUrl:'http://via.placeholder.com/350x150',
+            quantity:0
           },
 
         ],
@@ -48,6 +52,7 @@ class App extends Component {
     this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
     this.toggleCardView = this.toggleCardView.bind(this);
+    this.removeItemFromCart = this.removeItemFromCart.bind(this);
   }
   handleAddItemToCart( item ){
     let newCart = this.state.cart.map( cartItem => {
@@ -56,14 +61,45 @@ class App extends Component {
         name:cartItem.name,
         description:cartItem.description,
         price:cartItem.price,
-        imageUrl:cartItem.imageUrl
+        imageUrl:cartItem.imageUrl,
+        quantity:cartItem.quantity
       }
     })
-    newCart.push(item)
+    let itemIndex = newCart.findIndex( cartItem => cartItem.id === item.id)
+    if( itemIndex!== -1){
+      newCart[itemIndex].quantity++
+    } else {
+      item.quantity++
+      newCart.push(item)
+    }
     this.setState({
       cart:newCart
     })
   }
+
+  removeItemFromCart( id ){
+    let newCart = this.state.cart.map( cartItem => {
+      return {
+        id:cartItem.id,
+        name:cartItem.name,
+        description:cartItem.description,
+        price:cartItem.price,
+        imageUrl:cartItem.imageUrl,
+        quantity:cartItem.quantity
+      }
+    })
+    let itemIndex = newCart.findIndex( cartItem => cartItem.id === id)
+    if(newCart[itemIndex].quantity === 1){
+      newCart.splice(itemIndex,1)
+    }
+    else {
+      newCart[itemIndex].quantity--
+    }
+    this.setState({
+      cart:newCart
+    })
+  }
+
   checkout(){
     alert("Here's yer stuff")
     this.setState({
@@ -142,6 +178,7 @@ class App extends Component {
                   // </div>
                   <CartItem
                     item={item}
+                    removeItem={this.removeItemFromCart}
                   />
                 )
               })
@@ -151,7 +188,7 @@ class App extends Component {
           <div className='total'>
             <h1>TOTAL</h1>
             <p>${
-              this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price,0)
+              this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price*current.quantity,0)
             }</p>
             <button onClick={this.checkout}>Checkout</button>
           </div>

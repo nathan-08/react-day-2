@@ -41,10 +41,12 @@ class App extends Component {
 
         ],
       
-      cart:[]
+      cart:[],
+      toggleCard:false
     }
     this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
+    this.toggleCardView = this.toggleCardView.bind(this);
   }
   handleAddItemToCart( item ){
     let newCart = this.state.cart.map( cartItem => {
@@ -67,11 +69,18 @@ class App extends Component {
       cart:[]
     })
   }
+  toggleCardView(){
+    this.setState({
+      toggleCard:!this.state.toggleCard
+    })
+  }
   render() {
     return (
       <div>
+        
         <div className='products'>
           <h1>PRODUCTS</h1>
+          <button onClick={this.toggleCardView}>Toggle View</button>
           <h2>Beach Gear</h2>
           {
             this.state.beachGear.map( item => {
@@ -86,6 +95,7 @@ class App extends Component {
                 <Product
                   item={item}
                   addItem={this.handleAddItemToCart}
+                  cardView={this.state.toggleCard}
                 />
               )
             })
@@ -104,6 +114,7 @@ class App extends Component {
                 <Product
                   item={item}
                   addItem={this.handleAddItemToCart}
+                  cardView={this.state.toggleCard}
                 />
               )
             })

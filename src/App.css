@@ -15,6 +15,11 @@
   padding: 10px;
   border-left:1px solid black;
 }
-.side_bar {
+/* .side_bar {
   float: right;
+} */
+nav {
+  position:fixed;
+  background: blue;
+  width:100%;
 }

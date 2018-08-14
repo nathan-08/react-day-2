@@ -121,29 +121,31 @@ class App extends Component {
           }
           
         </div>
-        <div className='cart'>
-          <h1>CART</h1>
-          {
-            this.state.cart.map( item => {
-              return( 
-                // <div>
-                //   <h4>{item.name}</h4>
-                //   <p>{item.price}</p>
-                // </div>
-                <CartItem
-                  item={item}
-                />
-              )
-            })
-          }
+        <div className='side_bar'>
+          <div className='cart'>
+            <h1>CART</h1>
+            {
+              this.state.cart.map( item => {
+                return( 
+                  // <div>
+                  //   <h4>{item.name}</h4>
+                  //   <p>{item.price}</p>
+                  // </div>
+                  <CartItem
+                    item={item}
+                  />
+                )
+              })
+            }
 
-        </div>
-        <div className='total'>
-          <h1>TOTAL</h1>
-          <p>${
-            this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price,0)
-          }</p>
-          <button onClick={this.checkout}>Checkout</button>
+          </div>
+          <div className='total'>
+            <h1>TOTAL</h1>
+            <p>${
+              this.state.cart.reduce( ( accumulator, current ) => accumulator+= current.price,0)
+            }</p>
+            <button onClick={this.checkout}>Checkout</button>
+          </div>
         </div>
       </div>
     );

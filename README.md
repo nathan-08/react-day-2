@@ -362,3 +362,5 @@ Here we will toggle the class of our product elements, to render them either in 
 
 _____________________________end of day 1_______________________________________
 
+# Day 2
+

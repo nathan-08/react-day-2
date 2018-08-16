@@ -1,11 +1,12 @@
 import React from 'react';
+import Text from './Text';
 
 function CartItem(props) {
     const { item } = props;
     return (
         <div>
-            <h4>{item.name}</h4>
-            <p>{item.price}</p>
+            <Text isHeader={true} text={item.name}/>
+            <Text isHeader={false} text={item.price}/>
         </div>
     );
 

@@ -44,9 +44,7 @@ class App extends Component {
       cart:[],
       toggleCard:false
     }
-    this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
-    this.toggleCardView = this.toggleCardView.bind(this);
   }
   handleAddItemToCart( item ){
     let newCart = this.state.cart.map( cartItem => {

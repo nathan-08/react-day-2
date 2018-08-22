@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
+import Product from './Components/Product';
+import CartItem from './Components/CartItem';
 
 class App extends Component {
   constructor(props) {
@@ -7,7 +9,9 @@ class App extends Component {
     this.state = {
       addressInput: "",
       ccInput: "",
+      display: "products",
       cart: [],
+      searchInput: '',
       cardView: true,
       beachGear: [
         {
@@ -51,7 +55,9 @@ class App extends Component {
       ]
     };
     this.checkout = this.checkout.bind(this);
+    this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
   }
+  toggleDisplay = () => this.setState({ display: this.state.display==="products"?"cart":"products"})
   toggleView = () => this.setState({ cardView: !this.state.cardView });
   handleAddressInput = event => this.setState({ addressInput: event.target.value });
   handleCCInput = event => this.setState({ ccInput: event.target.value });
@@ -67,6 +73,8 @@ class App extends Component {
     }
     this.setState({ cart: newCart });
   };
+  navigate = value => this.setState({ display: value })
+  handleSearch = event => this.setState({ searchInput: event.target.value })
   handleAddItemToCart(item) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
@@ -99,10 +107,16 @@ class App extends Component {
   render() {
     return (
       <div>
-        <section className="products">
+        <nav className="nav"><span onClick={_=>this.navigate('products')}>products</span> | <span onClick={_=>this.navigate('cart')}>cart</span></nav>
+       { this.state.display==="products"
+       ? <section className="products">
           <div className="products_header">
             <h1>PRODUCTS</h1>
+            <div className="button_container">
+            <label>search</label>
+            <input type="text" value={this.state.searchInput} onChange={this.handleSearch}/><br/>
             <button onClick={this.toggleView}>toggle view</button>
+            </div>
           </div>
           <table className="products_body">
             <thead>
@@ -110,67 +124,27 @@ class App extends Component {
                 <h2>Beach Gear</h2>
               </th>
             </thead>
-            {this.state.beachGear.map(item => {
-              if (this.state.cardView)
-                return (
-                  <tr className="product_container clearfix">
-                    <td>
-                      <img className="product_img" src={item.imageUrl} />
-                    </td>
-                    <td>
-                      <h4>{item.name}</h4>
-                      <p>{item.description}</p>
-                      <p>{item.price}</p>
-                      </td><td>
-                      <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
-                    </td>
-                  </tr>
-                );
-              else
-                return (
-                  <tr className="product_container clearfix">
-                    <td>
-                      <h4>{item.name}</h4>
-                    </td>
-                    <td>{item.description}</td>
-                    <td>{item.price}</td>
-                    <td><button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button></td>
-                  </tr>
-                );
-            })}
+            {this.state.beachGear.map(item =>{ 
+            if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+            return <Product 
+              item={item} 
+              addToCart={this.handleAddItemToCart} 
+              cardView={this.state.cardView}
+            />})}
             <thead><th colspan="2">
             <h2>Camping</h2></th>
             </thead>
-            {this.state.camping.map(item => {
-              if (this.state.cardView)
-                return (
-                  <tr className="products_container clearfix">
-                    <td>
-                      <img className="product_img" src={item.imageUrl} />
-                    </td>
-                    <td>
-                      <h4>{item.name}</h4>
-                      <p>{item.description}</p>
-                      <p>{item.price}</p></td><td>
-                      <button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button>
-                    </td>
-                  </tr>
-                );
-              else
-                return (
-                  <tr className="product_container clearfix">
-                    <td>
-                      <h4>{item.name}</h4>
-                    </td>
-                    <td>{item.description}</td>
-                    <td>{item.price}</td>
-                    <td><button onClick={() => this.handleAddItemToCart(item)}>Add to Cart</button></td>
-                  </tr>
-                );
-            })}
+            {this.state.camping.map(item =>{ 
+            if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+            return <Product
+              item={item}
+              addToCart={this.handleAddItemToCart}
+              cardView={this.state.cardView}
+            />})}
           </table>
         </section>
-        <section className="cart">
+        // else
+        : <section className="cart">
           <div className="cart_header">
             <h1>CART</h1>
             <div className="total">
@@ -203,25 +177,11 @@ class App extends Component {
             </div>
           </div>
           <table className="cart_body">
-            {this.state.cart.map(item => {
-              return (
-                <tr className="products_container clearfix">
-                  <td>
-                    <img className="product_img" src={item.imageUrl} />
-                  </td>
-                  <td>
-                    <h4>{item.name}</h4>
-                    <span>{(item.price * item.quantity).toFixed(2)}</span> <span> | qty: </span>
-                    <span>{item.quantity}</span>
-                    <br />
-                    <button onClick={_ => this.deleteFromCart(item.id)}>remove item</button>
-                  </td>
-                  <td />
-                </tr>
-              );
-            })}
+            {this.state.cart.map(item => <CartItem 
+              item={item} 
+              deleteFromCart={this.deleteFromCart}/>)}
           </table>
-        </section>
+        </section> }
       </div>
     );
   }
@@ -229,6 +189,14 @@ class App extends Component {
 
 export default App;
 
+// Day 2 starting code starts at day 1's stage 2 solution
+
+// Day2 props
+// proptypes, reusable components, functional component props
+// 1 - List into seperate components, include add to cart functionality
+// 2- Add proptypes onto a list item, Reusable text component, based on props changes styling: header, subtext, list view vs card view required.
+// 3 - ?
+// 4- Add search filter functionality, onchange or onclick, add navbar buttons at the top that toggle between card and product view. Fake if/else conditional rendering. 1 or 2 opportunitiesOther opportunites that text is a functional component. Improve input validation. changing quantities to 0, removes from cart etc.
 // 1 - single screen, sidebar, left side is a list of products.
 // 2 - add in props - list component, list item component, clean it up
 // 3 - add in axios.

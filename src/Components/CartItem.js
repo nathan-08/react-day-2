@@ -1,13 +1,20 @@
-import React from 'react';
+import React from "react";
 
-function CartItem(props) {
-    const { item } = props;
-    return (
-        <div>
-            <h4>{item.name}</h4>
-            <p>{item.price}</p>
-        </div>
-    );
-
+export default function CartItem(props) {
+  const { item, deleteFromCart } = props;
+  return (
+    <tr className="products_container clearfix">
+      <td>
+        <img className="product_img" src={item.imageUrl} />
+      </td>
+      <td>
+        <h4>{item.name}</h4>
+        <span>{(item.price * item.quantity).toFixed(2)}</span> <span> | qty: </span>
+        <span>{item.quantity}</span>
+        <br />
+        <button onClick={_ => deleteFromCart(item.id)}>remove item</button>
+      </td>
+      <td />
+    </tr>
+  );
 }
-export default CartItem;

@@ -567,7 +567,7 @@ Then we will do the same for the Cart Items. Remeber, with one line arrow functi
 
 </details>
 
-## Step 2 
+## Part 2 
 
 ### Summary
 
@@ -576,15 +576,67 @@ In this step we will start using the PropsTypes library, to provide better docum
 ### Instructions
 
 1. Install the Proptypes library, `npm install prop-types`.
-* Now inside the Product component import proptypes and create a Product.propTypes object (see deatiled instructions)
-* Create proptypes for the CartItem component.
-* Let's create a Text functional component that takes two props, a string called text and a boolean called isHeader. Then have this component render the string as either a 'p' tag or h4, depending on the value of 'isHeader'
-* Now use the Text component inside of our Product and CartItem components whereever you have an h4 or p tag.
+2. Now inside the Product component import proptypes and create a Product.propTypes object (see deatiled instructions)
+    <details><summary> Detailed Instructions </summary> 
+    ```js
+    import PropTypes from 'prop-types'
+    ```
 
-<details><summary> Detailed Instructions </summary> 
+    Now using the proptypes library, define a propTypes object for our two reusable components. Here is the propTypes object for the Product component.
 
-Install the proptypes library with `npm install prop-types`, and then import this into the Product and CartItem components
+    ```js
+    // after the Product function declaration
 
+    Product.propTypes = {
+    item: PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        price: PropTypes.number.isRequired,
+        description: PropTypes.string.isRequired,
+        imageUrl: PropTypes.string.isRequired
+    }),
+    addItem: PropTypes.func.isRequired,
+    cardView: PropTypes.bool.isRequired
+    }
+    ```
+    </details>
+3. Create proptypes for the CartItem component.
+
+4. Let's create a Text functional component that takes two props, a string called text and a boolean called isHeader. Then have this component render the string as either a 'p' tag or h4, depending on the value of 'isHeader'
+    <details><summary> Detailed Instructions </summary> 
+    Create a reusable functional component called Text which can take two props and render a string in either a p or h4 tag. Use Proptypes.
+
+    ```js
+    import React from 'react'
+    import PropTypes from 'prop-types'
+
+    function Text(props) {
+    const { test, isHeader } = props;
+    return isHeader ? <h4>{text}</h4> : <p>{text}</p>; 
+    }
+
+    Text.propTypes = {
+    text: PropTypes.string.isRequired,
+    isHeader: PropTypes.bool.isRequired
+    }
+    ```
+    </details>
+5. Now use the Text component inside of our Product and CartItem components whereever you have an h4 or p tag.
+    <details><summary> Detailed Instructions </summary> 
+    Now we can use this Text component inside our Product and CartItem components to replace blocks of text. 
+
+    ```js
+    import Text from "./Text";
+    // ...
+    <Text text={item.name} isHeader={true} />
+    <Text text={"$" + item.price} isHeader={false} />
+    // ...
+    ```
+    </details>
+
+<!-- <details><summary> Detailed Instructions </summary>  -->
+
+<!-- Install the proptypes library with `npm install prop-types`, and then import this into the Product and CartItem components -->
+<!-- 
 ```js
 import PropTypes from 'prop-types'
 ```
@@ -603,9 +655,9 @@ Product.propTypes = {
   addItem: PropTypes.func.isRequired,
   cardView: PropTypes.bool.isRequired
 }
-```
+``` -->
 
-Create a reusable functional component called Text which can take two props and render a string in either a p or h4 tag. Use Proptypes.
+<!-- Create a reusable functional component called Text which can take two props and render a string in either a p or h4 tag. Use Proptypes.
 
 ```js
 import React from 'react'
@@ -620,9 +672,9 @@ Text.propTypes = {
   text: PropTypes.string.isRequired,
   isHeader: PropTypes.bool.isRequired
 }
-```
+``` -->
 
-Now we can use this Text component inside our Product and CartItem components to replace blocks of text. 
+<!-- Now we can use this Text component inside our Product and CartItem components to replace blocks of text. 
 
 ```js
 import Text from "./Text";
@@ -632,7 +684,7 @@ import Text from "./Text";
 // ...
 ```
 
-</details> 
+</details>  -->
 
 ## Step 3 
 

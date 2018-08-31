@@ -1,4 +1,4 @@
-<img src="https://s3.amazonaws.com/devmountain/readme-logo.png" width="250" align="right">
+<!-- <img src="https://s3.amazonaws.com/devmountain/readme-logo.png" width="250" align="right">
 
 # Project Summary
 
@@ -359,8 +359,8 @@ Here we will toggle the class of our product elements, to render them either in 
 ```
 
 </details>
+_____________________________end of day 1_______________________________________ -->
 
-_____________________________end of day 1_______________________________________
 
 # Day 2
 
@@ -384,7 +384,7 @@ On this day we will be refactoring some of our code to take advantage of some of
 - Run `npm install`.
 - After `npm install` has finished run `npm start`.
 
-## Step 1
+## Part 1
 
 ### Summary
 
@@ -392,18 +392,100 @@ In this step we will create two functional components so that we don't have to r
 
 ### Instructions
 
-* Create a Components folder within `src`. 
-* In this folder, create a Product functional component and a CartItem functional component.
-* Product should take in as props the item object, the addItem method, and the toggleView value from state.
-* The CartItem component should take in the item object. 
-* Since we are passing the addItem method, we need to bind this.
-* Now, where you are mapping over products in the products section and the cart section, replace that block of code with our new functional components, passing in the required props.
+1. Create a Components folder within `src`. 
+2. In this folder, create a Product functional component and a CartItem functional component. Product should take in as props the item object, the addItem method, and the toggleView value from state. The CartItem component should take in the item object.
+    <details><summary> Detailed Instructions </summary>
 
-<details><summary> Detailed Instructions </summary>
+    `CartItem.js` should be a functional component that can take in an item object as a prop, and render the name and price in the appropriate HTML tags. 
 
-Create a Components folder with a `CartItem.js` and `Product.js` file.
+    ```js
+    import React from 'react';
 
-`CartItem.js` should be a functional component that can take in an item object as a prop, and render the name and price in the appropriate HTML tags. 
+    function CartItem (props) {
+        const { item } = props;
+        return (
+            <div>
+                <h4>{item.name}</h4>
+                <p>{item.price}</p>
+            </div>
+        );
+
+    }
+    export default CartItem;
+    ```
+    The Product component should also be a functional component that takes in props.
+
+    ```js
+    import React from "react";
+
+    function Product (props) {
+    const { item, cardView } = props;
+    return cardView ? (
+        <div>
+        <h4>{item.name}</h4>
+        <p>{item.price}</p>
+        <button onClick={() => props.addItem(item)}>Add to Cart</button>
+        </div>
+    ) : (
+        <div>
+        <img src={item.imageUrl} alt="the item" />
+        <h4>{item.name}</h4>
+        <p>{item.description}</p>
+        <p>{item.price}</p>
+        <button onClick={() => props.addItem(item)}>Add to Cart</button>
+        </div>
+    );
+    }
+
+    export default Product;
+    ```
+
+    </details>
+3. Since we are passing the addItem method, we need to bind this.
+    <details><summary> Detailed Instructions </summary>
+    Since we are passing in a method to this component, we need to bind it so that it preserves the right `this` context. We can do this at the end of App's constructor function.
+
+    ```js
+    this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
+    ```
+    </details>
+4. Now, where you are mapping over products in the products section and the cart section, replace that block of code with our new functional components, passing in the required props.
+    <details><summary> Detailed Instructions </summary>
+    Now we can use these functional components in place of the JSX we had written when mapping over the products array. Here is the example for mapping over the products for the Camping category (you get to make up your own product categories).
+
+    ```js
+    import Product from './Components/Product'
+    // ...
+
+    <h2>Camping</h2>
+    {
+    this.state.camping.map( item => {
+        return(
+        <Product
+            item={item}
+            addItem={this.handleAddItemToCart}
+            cardView={this.state.toggleCard}
+        />
+        )
+    })
+    }
+    ```
+
+    Then we will do the same for the Cart Items. Remeber, with one line arrow functions, we don't need an explicit return statement.
+
+    ```js
+    <h1>CART</h1>
+    {
+    this.state.cart.map( item => <CartItem item={item} /> )
+    }
+    ```
+    </details>
+
+<!-- <details><summary> Detailed Instructions </summary> -->
+
+<!-- Create a Components folder with a `CartItem.js` and `Product.js` file. -->
+
+<!-- `CartItem.js` should be a functional component that can take in an item object as a prop, and render the name and price in the appropriate HTML tags. 
 
 ```js
 import React from 'react';
@@ -419,9 +501,9 @@ function CartItem (props) {
 
 }
 export default CartItem;
-```
+``` -->
 
-The Product component should also be a functional component that takes in props.
+<!-- The Product component should also be a functional component that takes in props.
 
 ```js
 import React from "react";
@@ -446,14 +528,14 @@ function Product (props) {
 }
 
 export default Product;
-```
+``` -->
 
-Since we are passing in a method to this component, we need to bind it so that it preserves the right `this` context. We can do this at the end of App's constructor function.
+<!-- Since we are passing in a method to this component, we need to bind it so that it preserves the right `this` context. We can do this at the end of App's constructor function.
 
 ```js
 this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
-```
-
+``` -->
+<!-- 
 Now we can use these functional components in place of the JSX we had written when mapping over the products array. Here is the example for mapping over the products for the Camping category (you get to make up your own product categories).
 
 ```js
@@ -480,7 +562,7 @@ Then we will do the same for the Cart Items. Remeber, with one line arrow functi
 {
   this.state.cart.map( item => <CartItem item={item} /> )
 }
-```
+``` -->
 
 
 </details>
@@ -493,7 +575,7 @@ In this step we will start using the PropsTypes library, to provide better docum
 
 ### Instructions
 
-* Install the Proptypes library, `npm install prop-types`.
+1. Install the Proptypes library, `npm install prop-types`.
 * Now inside the Product component import proptypes and create a Product.propTypes object (see deatiled instructions)
 * Create proptypes for the CartItem component.
 * Let's create a Text functional component that takes two props, a string called text and a boolean called isHeader. Then have this component render the string as either a 'p' tag or h4, depending on the value of 'isHeader'

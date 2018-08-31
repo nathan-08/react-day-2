@@ -68,7 +68,6 @@ class App extends Component {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
     let itemIndex = newCart.findIndex(cartItem => cartItem.id === id);
-    console.log("index: ", newCart);
     if (newCart[itemIndex].quantity > 1) {
       newCart[itemIndex].quantity--;
     } else {

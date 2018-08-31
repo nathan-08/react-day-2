@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import Product from './Components/Product';
-import CartItem from './Components/CartItem';
+import Product from "./Components/Product";
+import CartItem from "./Components/CartItem";
 
 class App extends Component {
   constructor(props) {
@@ -55,10 +55,16 @@ class App extends Component {
     this.checkout = this.checkout.bind(this);
     this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
   }
-  toggleView = () => this.setState({ cardView: !this.state.cardView });
-  handleAddressInput = event => this.setState({ addressInput: event.target.value });
-  handleCCInput = event => this.setState({ ccInput: event.target.value });
-  deleteFromCart = id => {
+  toggleView() {
+    this.setState({ cardView: !this.state.cardView });
+  }
+  handleAddressInput(event) {
+    this.setState({ addressInput: event.target.value });
+  }
+  handleCCInput(event) {
+    this.setState({ ccInput: event.target.value });
+  }
+  deleteFromCart(id) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
     let itemIndex = newCart.findIndex(cartItem => cartItem.id === id);
@@ -69,7 +75,7 @@ class App extends Component {
       newCart.splice(itemIndex, 1);
     }
     this.setState({ cart: newCart });
-  };
+  }
   handleAddItemToCart(item) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
@@ -113,19 +119,17 @@ class App extends Component {
                 <h2>Beach Gear</h2>
               </th>
             </thead>
-            {this.state.beachGear.map(item => <Product 
-              item={item} 
-              addToCart={this.handleAddItemToCart} 
-              cardView={this.state.cardView}
-            />)}
-            <thead><th colspan="2">
-            <h2>Camping</h2></th>
+            {this.state.beachGear.map(item => (
+              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} />
+            ))}
+            <thead>
+              <th colspan="2">
+                <h2>Camping</h2>
+              </th>
             </thead>
-            {this.state.camping.map(item => <Product
-              item={item}
-              addToCart={this.handleAddItemToCart}
-              cardView={this.state.cardView}
-            />)}
+            {this.state.camping.map(item => (
+              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} />
+            ))}
           </table>
         </section>
         <section className="cart">
@@ -161,9 +165,9 @@ class App extends Component {
             </div>
           </div>
           <table className="cart_body">
-            {this.state.cart.map(item => <CartItem 
-              item={item} 
-              deleteFromCart={this.deleteFromCart}/>)}
+            {this.state.cart.map(item => (
+              <CartItem item={item} deleteFromCart={this.deleteFromCart} />
+            ))}
           </table>
         </section>
       </div>

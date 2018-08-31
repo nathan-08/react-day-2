@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
-import Product from './Components/Product';
-import CartItem from './Components/CartItem';
+import Product from "./Components/Product";
+import CartItem from "./Components/CartItem";
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class App extends Component {
       ccInput: "",
       display: "products",
       cart: [],
-      searchInput: '',
+      searchInput: "",
       cardView: true,
       beachGear: [
         {
@@ -55,13 +55,21 @@ class App extends Component {
       ]
     };
     this.checkout = this.checkout.bind(this);
-    this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
-  toggleDisplay = () => this.setState({ display: this.state.display==="products"?"cart":"products"})
-  toggleView = () => this.setState({ cardView: !this.state.cardView });
-  handleAddressInput = event => this.setState({ addressInput: event.target.value });
-  handleCCInput = event => this.setState({ ccInput: event.target.value });
-  deleteFromCart = id => {
+  toggleDisplay() {
+    this.setState({ display: this.state.display === "products" ? "cart" : "products" });
+  }
+  toggleView() {
+    this.setState({ cardView: !this.state.cardView });
+  }
+  handleAddressInput(event) {
+    this.setState({ addressInput: event.target.value });
+  }
+  handleCCInput(event) {
+    this.setState({ ccInput: event.target.value });
+  }
+  deleteFromCart(id) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
     let itemIndex = newCart.findIndex(cartItem => cartItem.id === id);
@@ -72,10 +80,14 @@ class App extends Component {
       newCart.splice(itemIndex, 1);
     }
     this.setState({ cart: newCart });
-  };
-  navigate = value => this.setState({ display: value })
-  handleSearch = event => this.setState({ searchInput: event.target.value })
-  handleAddItemToCart(item) {
+  }
+  navigate(value) {
+    this.setState({ display: value });
+  }
+  handleSearch(event) {
+    this.setState({ searchInput: event.target.value });
+  }
+  addToCart(item) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
     let match = newCart.find(cartItem => cartItem.id === item.id);
@@ -107,81 +119,83 @@ class App extends Component {
   render() {
     return (
       <div>
-        <nav className="nav"><span onClick={_=>this.navigate('products')}>products</span> | <span onClick={_=>this.navigate('cart')}>cart</span></nav>
-       { this.state.display==="products"
-       ? <section className="products">
-          <div className="products_header">
-            <h1>PRODUCTS</h1>
-            <div className="button_container">
-            <label>search</label>
-            <input type="text" value={this.state.searchInput} onChange={this.handleSearch}/><br/>
-            <button onClick={this.toggleView}>toggle view</button>
+        <nav className="nav">
+          <span onClick={_ => this.navigate("products")}>products</span> |{" "}
+          <span onClick={_ => this.navigate("cart")}>cart</span>
+        </nav>
+        {this.state.display === "products" ? (
+          <section className="products">
+            <div className="products_header">
+              <h1>PRODUCTS</h1>
+              <div className="button_container">
+                <label>search</label>
+                <input type="text" value={this.state.searchInput} onChange={this.handleSearch} />
+                <br />
+                <button onClick={this.toggleView}>toggle view</button>
+              </div>
             </div>
-          </div>
-          <table className="products_body">
-            <thead>
-              <th colspan="2">
-                <h2>Beach Gear</h2>
-              </th>
-            </thead>
-            {this.state.beachGear.map(item =>{ 
-            if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-            return <Product 
-              item={item} 
-              addToCart={this.handleAddItemToCart} 
-              cardView={this.state.cardView}
-            />})}
-            <thead><th colspan="2">
-            <h2>Camping</h2></th>
-            </thead>
-            {this.state.camping.map(item =>{ 
-            if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-            return <Product
-              item={item}
-              addToCart={this.handleAddItemToCart}
-              cardView={this.state.cardView}
-            />})}
-          </table>
-        </section>
-        // else
-        : <section className="cart">
-          <div className="cart_header">
-            <h1>CART</h1>
-            <div className="total">
-              <table>
-                <tr>
-                  <td>
-                    <label>address</label>
-                  </td>
-                  <td>
-                    <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput} />
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <label>credit card number</label>
-                  </td>
-                  <td>
-                    <input type="text" value={this.state.ccInput} onChange={this.handleCCInput} />
-                  </td>
-                </tr>
-              </table>
-              <h4>TOTAL</h4>
-              <p>
-                $
-                {this.state.cart
-                  .reduce((accumulator, current) => (accumulator += current.price * current.quantity), 0)
-                  .toFixed(2)}
-              </p>
-              <button onClick={this.checkout}>Checkout</button>
+            <table className="products_body">
+              <thead>
+                <th colspan="2">
+                  <h2>Beach Gear</h2>
+                </th>
+              </thead>
+              {this.state.beachGear.map(item => {
+                if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+                  return <Product item={item} addToCart={this.addToCart} cardView={this.state.cardView} />;
+              })}
+              <thead>
+                <th colspan="2">
+                  <h2>Camping</h2>
+                </th>
+              </thead>
+              {this.state.camping.map(item => {
+                if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+                  return <Product item={item} addToCart={this.addToCart} cardView={this.state.cardView} />;
+              })}
+            </table>
+          </section>
+        ) : (
+          // else
+          <section className="cart">
+            <div className="cart_header">
+              <h1>CART</h1>
+              <div className="total">
+                <table>
+                  <tr>
+                    <td>
+                      <label>address</label>
+                    </td>
+                    <td>
+                      <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput} />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <label>credit card number</label>
+                    </td>
+                    <td>
+                      <input type="text" value={this.state.ccInput} onChange={this.handleCCInput} />
+                    </td>
+                  </tr>
+                </table>
+                <h4>TOTAL</h4>
+                <p>
+                  $
+                  {this.state.cart
+                    .reduce((accumulator, current) => (accumulator += current.price * current.quantity), 0)
+                    .toFixed(2)}
+                </p>
+                <button onClick={this.checkout}>Checkout</button>
+              </div>
             </div>
-          </div>
-          <table className="cart_body">
-            {this.state.cart.map(item => <CartItem 
-              item={item} 
-              deleteFromCart={this.deleteFromCart}/>)}
-          </table>
-        </section> }
+            <table className="cart_body">
+              {this.state.cart.map(item => (
+                <CartItem item={item} deleteFromCart={this.deleteFromCart} />
+              ))}
+            </table>
+          </section>
+        )}
       </div>
     );
   }

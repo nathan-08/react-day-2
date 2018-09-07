@@ -66,8 +66,8 @@ In this part we will create two functional components so that we don't have to r
     import React from "react";
 
     function Product (props) {
-      const { item, cardView } = props;
-      return cardView ? (
+      const { item, toggleView } = props;
+      return toggleView ? (
         <div>
           <h4>{item.name}</h4>
           <p>{item.price}</p>
@@ -104,7 +104,7 @@ In this part we will create two functional components so that we don't have to r
     <CartItem item={item}/>
     ```
     </details>
-5. Since we are passing the addToCart and deleteFromCart methods, we need to bind them.
+5. Since we are passing the addToCart and removeFromCart methods, we need to bind them.
     <details>
     <summary> Detailed Instructions </summary>
     <br />
@@ -112,7 +112,7 @@ In this part we will create two functional components so that we don't have to r
 
     ```js
     this.addToCart = this.addToCart.bind(this);
-    this.deleteFromCart = this.deleteFromCart.bind(this);
+    this.removeFromCart = this.removeFromCart.bind(this);
     ```
 
     </details>
@@ -131,7 +131,7 @@ In this part we will create two functional components so that we don't have to r
 
     ```js
     {this.state.cart.map(item => (
-      <CartItem item={item} deleteFromCart={this.deleteFromCart}>
+      <CartItem item={item} removeFromCart={this.removeFromCart}>
     ))}
     ```
 
@@ -169,7 +169,7 @@ In this part we will start using the PropsTypes library, to provide better docum
         imageUrl: propTypes.string.isRequired
       }),
       addItem: propTypes.func.isRequired,
-      cardView: propTypes.bool.isRequired
+      toggleView: propTypes.bool.isRequired
     }
     ```
     </details>
@@ -193,7 +193,7 @@ In this part we will start using the PropsTypes library, to provide better docum
           quantity: propTypes.number.isRequired,
           imageUrl: propTypes.string.isRequired
       }),
-      deleteFromCart: propTypes.func.isRequired
+      removeFromCart: propTypes.func.isRequired
     }
     ```
     </details>

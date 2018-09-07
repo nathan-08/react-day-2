@@ -12,7 +12,7 @@ class App extends Component {
       display: "products",
       cart: [],
       searchInput: "",
-      cardView: true,
+      toggleView: true,
       beachGear: [
         {
           id: 1,
@@ -56,12 +56,14 @@ class App extends Component {
     };
     this.checkout = this.checkout.bind(this);
     this.addToCart = this.addToCart.bind(this);
+    this.toggleView = this.toggleView.bind(this);
+    this.removeFromCart = this.removeFromCart.bind(this);
   }
   toggleDisplay() {
     this.setState({ display: this.state.display === "products" ? "cart" : "products" });
   }
   toggleView() {
-    this.setState({ cardView: !this.state.cardView });
+    this.setState({ toggleView: !this.state.toggleView });
   }
   handleAddressInput(event) {
     this.setState({ addressInput: event.target.value });
@@ -69,7 +71,7 @@ class App extends Component {
   handleCCInput(event) {
     this.setState({ ccInput: event.target.value });
   }
-  deleteFromCart(id) {
+  removeFromCart(id) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
     let itemIndex = newCart.findIndex(cartItem => cartItem.id === id);
@@ -135,24 +137,42 @@ class App extends Component {
               </div>
             </div>
             <table className="products_body">
-              <thead>
-                <th colspan="2">
-                  <h2>Beach Gear</h2>
-                </th>
-              </thead>
-              {this.state.beachGear.map(item => {
-                if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-                  return <Product item={item} addToCart={this.addToCart} cardView={this.state.cardView} />;
-              })}
-              <thead>
-                <th colspan="2">
-                  <h2>Camping</h2>
-                </th>
-              </thead>
-              {this.state.camping.map(item => {
-                if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
-                  return <Product item={item} addToCart={this.addToCart} cardView={this.state.cardView} />;
-              })}
+              <tbody>
+                <tr>
+                  <th colSpan="2">
+                    <h2>Beach Gear</h2>
+                  </th>
+                </tr>
+                {this.state.beachGear.map(item => {
+                  if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+                    return (
+                      <Product
+                        item={item}
+                        addToCart={this.addToCart}
+                        toggleView={this.state.toggleView}
+                        key={item.id}
+                      />
+                    );
+                  return null;
+                })}
+                <tr>
+                  <th colSpan="2">
+                    <h2>Camping</h2>
+                  </th>
+                </tr>
+                {this.state.camping.map(item => {
+                  if (item.name.toLowerCase().includes(this.state.searchInput.toLowerCase()))
+                    return (
+                      <Product
+                        item={item}
+                        addToCart={this.addToCart}
+                        toggleView={this.state.toggleView}
+                        key={item.id}
+                      />
+                    );
+                  return null;
+                })}
+              </tbody>
             </table>
           </section>
         ) : (
@@ -162,22 +182,24 @@ class App extends Component {
               <h1>CART</h1>
               <div className="total">
                 <table>
-                  <tr>
-                    <td>
-                      <label>address</label>
-                    </td>
-                    <td>
-                      <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>credit card number</label>
-                    </td>
-                    <td>
-                      <input type="text" value={this.state.ccInput} onChange={this.handleCCInput} />
-                    </td>
-                  </tr>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <label>address</label>
+                      </td>
+                      <td>
+                        <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput} />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label>credit card number</label>
+                      </td>
+                      <td>
+                        <input type="text" value={this.state.ccInput} onChange={this.handleCCInput} />
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
                 <h4>TOTAL</h4>
                 <p>
@@ -190,9 +212,11 @@ class App extends Component {
               </div>
             </div>
             <table className="cart_body">
-              {this.state.cart.map(item => (
-                <CartItem item={item} deleteFromCart={this.deleteFromCart} />
-              ))}
+              <tbody>
+                {this.state.cart.map(item => (
+                  <CartItem item={item} removeFromCart={this.removeFromCart} key={item.id} />
+                ))}
+              </tbody>
             </table>
           </section>
         )}

@@ -3,12 +3,12 @@ import propTypes from 'prop-types';
 import Text from './Text';
 
 export default function Product(props) {
-  const { item, cardView, addToCart } = props;
-  if (cardView)
+  const { item, toggleView, addToCart } = props;
+  if (toggleView)
     return (
       <tr className="products_container clearfix">
         <td>
-          <img className="product_img" src={item.imageUrl} />
+          <img className="product_img" src={item.imageUrl} alt="product" />
         </td>
         <td>
           <Text text={item.name} isHeader={true}/>
@@ -44,6 +44,6 @@ Product.propTypes = {
     quantity: propTypes.number.isRequired,
     imageUrl: propTypes.string.isRequired
   }),
-  addItem: propTypes.func.isRequired,
-  cardView: propTypes.bool
+  addToCart: propTypes.func.isRequired,
+  toggleView: propTypes.bool
 };

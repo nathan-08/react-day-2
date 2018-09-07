@@ -53,7 +53,7 @@ class App extends Component {
       ]
     };
     this.checkout = this.checkout.bind(this);
-    this.handleAddItemToCart = this.handleAddItemToCart.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
   toggleView() {
     this.setState({ cardView: !this.state.cardView });
@@ -75,7 +75,7 @@ class App extends Component {
     }
     this.setState({ cart: newCart });
   }
-  handleAddItemToCart(item) {
+  addToCart(item) {
     const { cart } = this.state;
     let newCart = cart.map(cartItem => Object.assign({}, cartItem));
     let match = newCart.find(cartItem => cartItem.id === item.id);
@@ -119,7 +119,7 @@ class App extends Component {
               </th>
             </tr>
             {this.state.beachGear.map(item => (
-              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} key={item.id}/>
+              <Product item={item} addToCart={this.addToCart} cardView={this.state.cardView} key={item.id}/>
             ))}
             <tr>
               <th colSpan="2">
@@ -127,7 +127,7 @@ class App extends Component {
               </th>
             </tr>
             {this.state.camping.map(item => (
-              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} key={item.id}/>
+              <Product item={item} addToCart={this.addToCart} cardView={this.state.cardView} key={item.id}/>
             ))}</tbody>
           </table>
         </section>

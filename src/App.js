@@ -112,36 +112,36 @@ class App extends Component {
             <h1>PRODUCTS</h1>
             <button onClick={this.toggleView}>toggle view</button>
           </div>
-          <table className="products_body">
-            <thead>
-              <th colspan="2">
+          <table className="products_body"><tbody>
+            <tr>
+              <th colSpan="2">
                 <h2>Beach Gear</h2>
               </th>
-            </thead>
+            </tr>
             {this.state.beachGear.map(item => (
-              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} />
+              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} key={item.id}/>
             ))}
-            <thead>
-              <th colspan="2">
+            <tr>
+              <th colSpan="2">
                 <h2>Camping</h2>
               </th>
-            </thead>
+            </tr>
             {this.state.camping.map(item => (
-              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} />
-            ))}
+              <Product item={item} addToCart={this.handleAddItemToCart} cardView={this.state.cardView} key={item.id}/>
+            ))}</tbody>
           </table>
         </section>
         <section className="cart">
           <div className="cart_header">
             <h1>CART</h1>
             <div className="total">
-              <table>
+              <table><tbody>
                 <tr>
                   <td>
                     <label>address</label>
                   </td>
                   <td>
-                    <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput} />
+                    <input type="text" value={this.state.addressInput} onChange={this.handleAddressInput}/>
                   </td>
                 </tr>
                 <tr>
@@ -151,7 +151,7 @@ class App extends Component {
                   <td>
                     <input type="text" value={this.state.ccInput} onChange={this.handleCCInput} />
                   </td>
-                </tr>
+                </tr></tbody>
               </table>
               <h4>TOTAL</h4>
               <p>
@@ -163,10 +163,10 @@ class App extends Component {
               <button onClick={this.checkout}>Checkout</button>
             </div>
           </div>
-          <table className="cart_body">
+          <table className="cart_body"><tbody>
             {this.state.cart.map(item => (
-              <CartItem item={item} deleteFromCart={this.deleteFromCart} />
-            ))}
+              <CartItem item={item} deleteFromCart={this.deleteFromCart} key={item.id}/>
+            ))}</tbody>
           </table>
         </section>
       </div>

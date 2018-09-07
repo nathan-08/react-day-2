@@ -66,8 +66,8 @@ In this part we will create two functional components so that we don't have to r
     import React from "react";
 
     function Product (props) {
-      const { item, cardView } = props;
-      return cardView ? (
+      const { item, toggleView } = props;
+      return toggleView ? (
         <div>
           <h4>{item.name}</h4>
           <p>{item.price}</p>
@@ -169,7 +169,7 @@ In this part we will start using the PropsTypes library, to provide better docum
         imageUrl: propTypes.string.isRequired
       }),
       addItem: propTypes.func.isRequired,
-      cardView: propTypes.bool.isRequired
+      toggleView: propTypes.bool.isRequired
     }
     ```
     </details>

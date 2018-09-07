@@ -7,7 +7,7 @@ export default function CartItem(props) {
   return (
     <tr className="products_container clearfix">
       <td>
-        <img className="product_img" src={item.imageUrl} />
+        <img className="product_img" src={item.imageUrl} alt="product"/>
       </td>
       <td>
         <Text text={item.name} isHeader={true}/>

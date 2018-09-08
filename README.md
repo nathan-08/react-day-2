@@ -21,13 +21,6 @@ On this day we will be refactoring some of our code to take advantage of some of
 
 <img src="#" />
 
-## Setup
-
-- `Fork` and `clone` this repository.
-- `cd` into the project directory.
-- Run `npm install`.
-- After `npm install` has finished run `npm start`.
-
 ## Part 1
 
 ### Summary

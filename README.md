@@ -19,7 +19,7 @@ On this day we will be refactoring some of our code to take advantage of some of
 
 <a href="#">Click Me!</a>
 
-<img src="#" />
+<img src="./src/img/screenshot.png"/>
 
 ## Part 1
 
